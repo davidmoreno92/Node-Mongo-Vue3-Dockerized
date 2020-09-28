@@ -1,0 +1,31 @@
+services:
+  api:
+    container_name: api
+    restart: always
+    build: ./api
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+#      MONGO_INITDB_DATABASE: admin
+#    volumes:
+#      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  app:
+    container_name: app
+    restart: always
+    build: ./app
+    ports:
+      - "8080:8080"
+
+volumes:
+  mongodata:
